@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Summary</title>
+    <style>
+        body {
+            background: url('https://saal.ai/wp-content/uploads/2023/02/Medicine-Artifical-Intelligence.jpg') 
+            no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .button {
+            display: block;
+            background: #007BFF;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .button:hover { background: #0056b3; }
+        .health-details {
+            display: none;
+            margin-top: 20px;
+        }
+        .health-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .red { background: #ffebeb; color: #d9534f; }
+        .blue { background: #e7f0fd; color: #0275d8; }
+        .green { background: #e9fbe7; color: #28a745; }
+        .yellow { background: #fff3cd; color: #ffc107; }
+    </style>
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        function showDetails() {
+            document.getElementById('heart-rate').textContent = getRandomInt(60, 100) + " BPM";
+            document.getElementById('blood-pressure').textContent = getRandomInt(110, 140) + "/" + getRandomInt(70, 90) + " mmHg";
+            document.getElementById('steps-walked').textContent = getRandomInt(3000, 10000) + " Steps";
+            document.getElementById('calories-burned').textContent = getRandomInt(100, 500) + " kcal";
+            document.getElementById('health-details').style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="myproject/myapp/static/shared image.png" alt="Logo" class="logo">
+    </div>
+    <div class="container">
+        <h2>Health Summary</h2>
+        <p>Your latest health metrics</p>
+        <button class="button" onclick="showDetails()">View Details</button>
+        <div id="health-details" class="health-details">
+            <div class="health-box red">Heart Rate: <span id="heart-rate"></span></div>
+            <div class="health-box blue">Blood Pressure: <span id="blood-pressure"></span></div>
+            <div class="health-box green">Steps Walked: <span id="steps-walked"></span></div>
+            <div class="health-box yellow">Calories Burned: <span id="calories-burned"></span></div>
+        </div>
+    </div>
+</body>
+</html>

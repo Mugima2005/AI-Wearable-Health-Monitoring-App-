@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            background: url('https://saal.ai/wp-content/uploads/2023/02/Medicine-Artifical-Intelligence.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #0077B6;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            align-items: center;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .menu {
+            flex: 1;
+            width: 100%;
+        }
+        .menu-item {
+            padding: 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        /* Logout Button */
+        .logout-btn {
+            background: #FF4C4C;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .logout-btn:hover {
+            background: #D63333;
+        }
+        /* Logout Popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 300px;
+        }
+        .popup button {
+            margin: 10px;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .popup .confirm-btn {
+            background: #0077B6;
+            color: white;
+            border-radius: 5px;
+        }
+        .popup .cancel-btn {
+            background: gray;
+            color: white;
+            border-radius: 5px;
+        }
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        /* Chatbot Section */
+        .chat-container {
+            width: 90%;
+            height: 85vh;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="{% static 'shared image.png' %}" alt="Logo" class="logo">
+        <h2>Health Assistant</h2>
+        <div class="menu">
+            <div class="menu-item" onclick="redirectTo('/healthMetrics/')">❤️ Health Data</div>
+            <div class="menu-item" onclick="redirectTo('/setGoals/')">🎯 Set Goals</div>
+            <div class="menu-item" onclick="redirectTo('/visualInsights/')">📊 Visual Insights</div>
+            <div class="menu-item" onclick="redirectTo('/dietPlan/')">🥗 Diet Plan</div>
+            <div class="menu-item" onclick="redirectTo('/trackProgress/')">📰 Latest News</div>
+        </div>
+        <div class="logout-btn" onclick="showLogoutPopup()">🚪 Logout</div>
+    </div>
+
+    <div class="main">
+        <h3 style="margin-bottom: 10px;">GenHealth AI ChatBot</h3>
+        <div class="chat-container">
+            <iframe src="https://copilotstudio.microsoft.com/environments/Default-6b8b8296-bdff-4ad8-93ad-84bcbf3842f5/bots/cr88c_healthcareAssistant/webchat"></iframe>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Popup -->
+    <div class="popup" id="logoutPopup">
+        <p>Are you sure you want to log out?</p>
+        <button class="confirm-btn" onclick="redirectTo('/login/')">Yes</button>
+        <button class="cancel-btn" onclick="closeLogoutPopup()">No</button>
+    </div>
+
+    <script>
+        function redirectTo(page) {
+            window.location.href = page; 
+        }
+
+        function showLogoutPopup() {
+            document.getElementById("logoutPopup").style.display = "block";
+        }
+
+        function closeLogoutPopup() {
+            document.getElementById("logoutPopup").style.display = "none";
+        }
+    </script>
+</body>
+</html>

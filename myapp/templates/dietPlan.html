@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Planner</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://saal.ai/wp-content/uploads/2023/02/Medicine-Artifical-Intelligence.jpg');
+            background-size: cover;
+            color: rgb(255, 255, 255); /* Changed text color */
+            padding: 20px;
+        }
+        h1, h2 {
+            color: rgb(26, 43, 191); /* Changed heading color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+        select, button {
+            padding: 12px;
+            margin: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            border-radius: 5px;
+        }
+        select {
+            background-color: #12100f; /* Changed dropdown color */
+            border: none;
+            color: white;
+        }
+        button {
+            background-color: #63bce5; /* Changed button color */
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #305bb3;
+        }
+        .box {
+            background-color: rgba(255, 255, 255, 0.8);
+            display: inline-block;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            color: black;
+        }
+        .hidden {
+            display: none;
+        }
+        .warningMessage {
+            color: red;
+            font-weight: bold;
+        }
+        .logo {
+            width: 150px; /* Adjust size */
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Diet Planner 🍏🍎</h1>
+    <div id="mealSelection">
+        <div class="box">
+            <h2>Breakfast 🍽️</h2>
+            <select id="breakfast">
+                <option value="0">Skipped</option>
+                <option value="168">Dosa</option>
+                <option value="40">Idly</option>
+                <option value="220">Poori</option>
+                <option value="150">Chappathi</option>
+                <option value="250">Pongal</option>
+                <option value="180">Upma</option>
+                <option value="220">Poha</option>
+                <option value="150">Bread Butter</option>
+                <option value="200">Cornflakes with milk</option>
+                <option value="100">Sprouts Salad</option>
+            </select>
+        </div>
+        <div class="box">
+            <h2>Lunch 🥗</h2>
+            <select id="lunch">
+                <option value="0">Skipped</option>
+                <option value="200">White Rice</option>
+                <option value="300">Sambar Rice</option>
+                <option value="250">Rasam Rice</option>
+                <option value="280">Curd Rice</option>
+                <option value="350">Veg Pulao</option>
+                <option value="500">Chicken Biryani</option>
+                <option value="350">Roti with Paneer</option>
+                <option value="320">Dal with Rice</option>
+                <option value="450">Fish Curry with Rice</option>
+            </select>
+        </div>
+        <div class="box">
+            <h2>Dinner 🍲</h2>
+            <select id="dinner">
+                <option value="0">Skipped</option>
+                <option value="250">Noodles</option>
+                <option value="350">Chappathi with Dal</option>
+                <option value="220">Oats Porridge</option>
+                <option value="150">Vegetable Soup</option>
+                <option value="280">Egg Bhurji with Toast</option>
+                <option value="250">Dosa with Chutney</option>
+                <option value="320">Mixed Vegetable Roti</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <button onclick="calculateCalories()">Calculate Calories 🧮</button>
+    <button onclick="window.location.href='{% url 'dashboard' %}'">Back to Dashboard</button>
+
+    <div class="box hidden" id="resultBox">
+        <h2 id="totalCalories"></h2>
+        <h3 id="recommendation"></h3>
+        <p id="mealAlternatives" class="warningMessage"></p>
+        <p id="skipWarning" class="warningMessage hidden"></p>
+        <button onclick="editMeals()">Edit Meals</button>
+    </div>
+
+    <script>
+        function calculateCalories() {
+            let breakfast = Number(document.getElementById("breakfast").value) || 0;
+            let lunch = Number(document.getElementById("lunch").value) || 0;
+            let dinner = Number(document.getElementById("dinner").value) || 0;
+ 
+            let total = breakfast + lunch + dinner;
+            document.getElementById("totalCalories").innerText = `Total Calories: ${total} kcal`;
+ 
+            let feedback = "";
+            if (total < 1500) {
+                feedback = "You are consuming fewer calories than required 🥺. Consider adding more nutrients!";
+            } else if (total >= 2000) {
+                feedback = "You are consuming more calories than recommended ⚠️. Try lighter meals!";
+            } else {
+                feedback = "You're on the right track! Keep it up! 💪";
+            }
+ 
+            document.getElementById("recommendation").innerText = feedback;
+ 
+            let skipMessages = [];
+            if (breakfast === 0) skipMessages.push("⚠️ Don't skip breakfast!");
+            if (lunch === 0) skipMessages.push("⚠️ Don't skip lunch!");
+            if (dinner === 0) skipMessages.push("⚠️ Don't skip dinner!");
+ 
+            let skipWarning = document.getElementById("skipWarning");
+            if (skipMessages.length > 0) {
+                skipWarning.innerHTML = skipMessages.join("<br>");
+                skipWarning.classList.remove("hidden");
+            } else {
+                skipWarning.classList.add("hidden");
+            }
+ 
+            let mealAlternatives = "";
+            if (breakfast > 200) mealAlternatives += `Instead of ${getMealName("breakfast")}, have Sprouts Salad (100 kcal) for breakfast.<br>`;
+            if (lunch > 400) mealAlternatives += `Instead of ${getMealName("lunch")}, have Dal with Rice (320 kcal) for lunch.<br>`;
+            if (dinner > 300) mealAlternatives += `Instead of ${getMealName("dinner")}, have Vegetable Soup (150 kcal) for dinner.<br>`;
+ 
+            let mealAlternativeElement = document.getElementById("mealAlternatives");
+            if (mealAlternatives !== "") {
+                mealAlternativeElement.innerHTML = mealAlternatives;
+                mealAlternativeElement.classList.remove("hidden");
+            } else {
+                mealAlternativeElement.classList.add("hidden");
+            }
+ 
+            document.getElementById("resultBox").classList.remove("hidden");
+            document.getElementById("mealSelection").classList.add("hidden");
+        }
+
+        function getMealName(mealType) {
+            let mealSelect = document.getElementById(mealType);
+            return mealSelect.options[mealSelect.selectedIndex].text;
+        }
+
+        function editMeals() {
+            document.getElementById("resultBox").classList.add("hidden");
+            document.getElementById("mealSelection").classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>

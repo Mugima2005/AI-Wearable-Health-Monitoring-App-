@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Redirect</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: url("{% static 'bg.jpeg' %}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .content h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .redirect-btn {
+            background-color: #0072ff;
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .redirect-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+
+        .redirect-btn:active {
+            background-color: #004085;
+            transform: translateY(2px);
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="chatbot-info">
+            <h1>GenHealth AI chatBot</h1>
+        </div>
+
+        <button class="redirect-btn" onclick="window.location.href='https://copilotstudio.microsoft.com/environments/Default-6b8b8296-bdff-4ad8-93ad-84bcbf3842f5/bots/cr88c_healthcareAssistant/webchat'">
+            I'm Here, GENAI
+        </button>
+    </div>
+
+</body>
+</html>

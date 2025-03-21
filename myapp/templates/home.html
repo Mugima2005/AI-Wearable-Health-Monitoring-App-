@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('https://saal.ai/wp-content/uploads/2023/02/Medicine-Artifical-Intelligence.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .button {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="container">
+        <!-- Logo Section -->
+        {% load static %}
+        <img src="{% static 'shared image.png' %}" alt="Logo" class="logo">
+
+        <h1>Welcome to Your AI Health Assistant</h1>
+        <p>Track and improve your mental and physical well-being with personalized recommendations.</p>
+        
+        <a href="{% url 'login' %}" class="button">Login</a>
+        <a href="{% url 'signup' %}" class="button">Sign Up</a>
+    </div>
+</body>
+</html>

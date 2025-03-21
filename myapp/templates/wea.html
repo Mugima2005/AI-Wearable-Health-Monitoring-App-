@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health & Weather Tracker</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #B0E0E6;
+            color: black;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('https://www2.niddk.nih.gov/-/media/Images/News/Meetings/2024-Meetings/NIDDK-2024-004_Digital_Health_Technology_To_Manage_Diabetes_Rotator_400x300_P1.jpg?as=0&h=300&iar=0&w=400&hash=0D051EE57420742AA2DCC0E98DF4AADE');
+            background-size: cover;
+            background-position: center;
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h2, h1 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        .column {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 45%;
+        }
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            width: 250px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            cursor: pointer;
+        }
+        #weather, #healthData, #googleFitStatus {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #savedDetails {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: rgba(240, 248, 255, 0.7);
+        }
+        .button-clicked {
+            background-color: #4CAF50;
+        }
+        .notification {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        /* Footer button style */
+        .footer-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            width: 200px;
+            text-align: center;
+        }
+        .footer-button:hover {
+            background-color: #45a049;
+        }
+</style>
+</head>
+<body>
+ 
+    <header>
+<h1>Health & Weather Tracker</h1>
+</header>
+ 
+    <div class="container">
+<!-- First Column for Health Data -->
+<div class="column">
+<h2>Set Up Your Health Details</h2>
+<form id="healthForm">
+<input type="text" id="name" placeholder="Enter Name" required><br>
+<input type="number" id="weight" placeholder="Enter Weight (kg)" required><br>
+<label for="sex">Select Sex: </label>
+<select id="sex" required>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+<option value="Other">Other</option>
+</select><br><br>
+<input type="number" id="height" placeholder="Enter Height (cm)" required><br>
+<label for="mood">Select Mood: </label>
+<select id="mood" required>
+<option value="Happy">Happy</option>
+<option value="Sad">Sad</option>
+<option value="Neutral">Neutral</option>
+<option value="Stressed">Stressed</option>
+<option value="Energetic">Energetic</option>
+</select><br><br>
+<input type="number" id="sleep" placeholder="Sleep Hours" required><br>
+<button type="submit" id="saveDetailsBtn">Save Details</button>
+</form>
+ 
+            <div id="savedDetails">
+<h3>Saved Health Details:</h3>
+<p id="savedInfo">Health details will appear here after saving...</p>
+</div>
+</div>
+ 
+        <!-- Second Column for Weather and Google Fit -->
+<div class="column">
+<h2>Connect to Google Fit</h2>
+<button id="googleFitBtn" onclick="connectWearableDevice()">Connect Google Fit</button>
+<p id="googleFitStatus">Google Fit: Not Connected</p>
+ 
+            <h2>Weather Details (Coimbatore)</h2>
+<button id="weatherBtn" onclick="fetchWeather()">Get Weather</button>
+<div id="weather">
+<p>Weather details will appear here...</p>
+</div>
+</div>
+</div>
+ 
+    <!-- Proceed to Dashboard Button (Footer) -->
+<button class="footer-button" onclick="redirectToDashboard()">Proceed to Dashboard</button>
+ 
+    <script>
+        const CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"; // Replace with your actual Google Fit Client ID
+        const WEATHER_API_KEY = "e81d06ea6a1046ad25663f436b269bce"; // Your provided OpenWeather API Key
+ 
+        document.getElementById("healthForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const userData = {
+                name: document.getElementById("name").value,
+                weight: document.getElementById("weight").value,
+                sex: document.getElementById("sex").value,
+                height: document.getElementById("height").value,
+                mood: document.getElementById("mood").value,
+                sleep: document.getElementById("sleep").value
+            };
+            localStorage.setItem("userHealthData", JSON.stringify(userData));
+            alert("Health Details Saved Successfully!");
+            displaySavedDetails(userData);
+            showNotification("Health details saved successfully!");
+        });
+ 
+        function displaySavedDetails(userData) {
+            const savedDetailsDiv = document.getElementById("savedInfo");
+            savedDetailsDiv.innerHTML = ` 
+                Name: ${userData.name}<br>
+                Weight: ${userData.weight} kg<br>
+                Sex: ${userData.sex}<br>
+                Height: ${userData.height} cm<br>
+                Mood: ${userData.mood}<br>
+                Sleep: ${userData.sleep} hours<br>
+            `;
+        }
+ 
+        function showNotification(message) {
+            const notification = document.createElement("div");
+            notification.classList.add("notification");
+            notification.textContent = message;
+            document.body.appendChild(notification);
+ 
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+ 
+        function authenticateGoogleFit() {
+            gapi.load('client:auth2', () => {
+                gapi.auth2.init({ client_id: CLIENT_ID }).then(() => {
+                    gapi.auth2.getAuthInstance().signIn().then(() => {
+                        fetchGoogleFitData();
+                    });
+                });
+            });
+        }
+ 
+        async function fetchGoogleFitData() {
+            await gapi.client.load('fitness', 'v1');
+ 
+            const response = await gapi.client.fitness.users.dataSources.list({
+                userId: 'me',
+            });
+ 
+            document.getElementById("googleFitStatus").innerText = "Google Fit: Connected";
+        }
+ 
+        function fetchWeather() {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Coimbatore&appid=${WEATHER_API_KEY}&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.main.temp;
+                    const humidity = data.main.humidity;
+                    const windSpeed = data.wind.speed;
+                    const pressure = data.main.pressure;
+                    const description = data.weather[0].description;
+ 
+                    let weatherText = `Temperature: ${temp}°C<br>`;
+                    weatherText += `Humidity: ${humidity}%<br>`;
+                    weatherText += `Wind Speed: ${windSpeed} m/s<br>`;
+                    weatherText += `Pressure: ${pressure} hPa<br>`;
+                    weatherText += `Description: ${description.charAt(0).toUpperCase() + description.slice(1)}<br>`;
+ 
+                    document.getElementById("weather").innerHTML = weatherText;
+                })
+                .catch(error => {
+                    document.getElementById("weather").innerText = "Error fetching weather data.";
+                });
+        }
+ 
+        // Proceed to dashboard
+        function redirectToDashboard() {
+            window.location.href = 'dashboard.html'; // Replace with your actual dashboard page URL
+        }
+ 
+        // Redirect to another page when Google Fit is clicked
+        function connectWearableDevice() {
+            // Redirecting to the new page when "Connect Google Fit" is clicked
+            window.location.href = 'googleFitPage.html'; // Replace with your actual Google Fit page URL
+        }
+</script>
+ 
+</body>
+</html>

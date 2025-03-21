@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Your Goals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function saveGoals() {
+            document.getElementById('saved-goals').classList.remove('hidden');
+
+            document.getElementById('display-steps').textContent = `👣 Steps Goal: ${document.getElementById('steps-goal').value}`;
+            document.getElementById('display-exercise').textContent = `⏳ Exercise Time: ${document.getElementById('exercise-goal').value} minutes`;
+            document.getElementById('display-calories').textContent = `🔥 Calories Burned Goal: ${document.getElementById('calories-goal').value} kcal`;
+            document.getElementById('display-weight').textContent = `⚖ Weight Goal: ${document.getElementById('weight-goal').value} kg`;
+            document.getElementById('display-water').textContent = `💦 Water Intake Goal: ${document.getElementById('water-goal').value} ml`;
+            document.getElementById('display-sleep').textContent = `🛌 Sleep Goal: ${document.getElementById('sleep-goal').value} hours`;
+        }
+    </script>
+    <style>
+        body {
+            background: url('https://saal.ai/wp-content/uploads/2023/02/Medicine-Artifical-Intelligence.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-4xl bg-white bg-opacity-90 p-6 rounded-2xl shadow-xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">🎯 Set Your Goals</h1>
+        
+        <div class="grid grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">🏋 Fitness Goals</h2>
+                <div class="space-y-3">
+                    <label class="block text-gray-600">👣 Steps Goal: <input id="steps-goal" type="number" value="10000" class="border p-2 rounded w-full"></label>
+                    <label class="block text-gray-600">⏳ Exercise Time (minutes): <input id="exercise-goal" type="number" value="40" class="border p-2 rounded w-full"></label>
+                    <label class="block text-gray-600">🔥 Calories Burned: <input id="calories-goal" type="number" value="400" class="border p-2 rounded w-full"></label>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-lg font-semibold text-gray-700 mb-4">💙 Health Goals</h2>
+                <div class="space-y-3">
+                    <label class="block text-gray-600">⚖ Weight Goal (kg): <input id="weight-goal" type="number" value="50" class="border p-2 rounded w-full"></label>
+                    <label class="block text-gray-600">💦 Water Goal (ml): <input id="water-goal" type="number" value="1000" class="border p-2 rounded w-full"></label>
+                    <label class="block text-gray-600">🛌 Sleep Goal (hours): <input id="sleep-goal" type="number" value="8" class="border p-2 rounded w-full"></label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-center">
+            <button onclick="saveGoals()" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition">
+                💾 Save Goals
+            </button>
+        </div>
+        <div id="saved-goals" class="hidden mt-6 p-6 bg-white rounded-xl shadow-lg text-center">
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">✅ Your Saved Goals</h2>
+            <p id="display-steps" class="text-gray-600"></p>
+            <p id="display-exercise" class="text-gray-600"></p>
+            <p id="display-calories" class="text-gray-600"></p>
+            <p id="display-weight" class="text-gray-600"></p>
+            <p id="display-water" class="text-gray-600"></p>
+            <p id="display-sleep" class="text-gray-600"></p>
+        </div>
+    </div>
+</body>
+</html>
